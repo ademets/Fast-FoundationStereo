@@ -1,0 +1,11 @@
+__pycache__
+cfg.yaml
+*.pth
+*.pkl
+*.pyc
+*.so
+*.egg-info
+# Ignore weight files but keep the folder structure
+weights/*
+!weights/.gitkeep
+output/

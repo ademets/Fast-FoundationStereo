@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZRBT9DCW3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-ZRBT9DCW3F');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <!-- <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script> -->
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="font-size:45px;">
+            Fast-FoundationStereo: Real-Time Zero-Shot
+            <br>Stereo Matching
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://wenbowen123.github.io/">Bowen Wen</a></sup>,
+              <a href="https://www.linkedin.com/in/shaurya-dewan-1b07231a2">Shaurya Dewan</a></sup>,
+              <a href="https://research.nvidia.com/person/stan-birchfield">Stan Birchfield</a></sup>
+            </span>
+          </div>
+          <br>
+
+          <!-- <div class="is-size-5 publication-authors">
+            <span class="author-block"></sup>NVIDIA</span>
+          </div> -->
+
+          <img src="static/media/nvlogo.png" style="max-height: 150px">
+
+          <!-- <div style="font-size:30px; font-weight: bold;">
+            CVPR 2025 <span style="color:red">(Best Paper Nomination)</span>
+          </div> -->
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2501.09898" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/NVlabs/FoundationStereo/" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code and Dataset</span>
+                  </a>
+              </span>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered" style="margin-bottom: 0;">
+      <div class="column is-four-fifths content-block-outline">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>Stereo foundation models achieve strong zero-shot generalization but remain computationally prohibitive for real-time applications. Efficient stereo architectures, on the other hand, sacrifice robustness for speed and require costly per-domain fine-tuning. To bridge this gap, we present Fast-FoundationStereo, a family of architectures that achieve, for the first time, strong zero-shot generalization at real-time frame rate. We employ a divide-and-conquer acceleration strategy with three components: (1) knowledge distillation to compress the hybrid backbone into a single efficient student; (2) blockwise neural architecture search for automatically discovering optimal cost filtering designs under latency budgets, reducing search complexity exponentially; and (3) structured pruning for eliminating redundancy in the iterative refinement module. Furthermore, we introduce an automatic pseudo-labeling pipeline used to curate 1.4M in-the-wild stereo pairs to supplement synthetic training data and facilitate knowledge distillation. The resulting model can run over 10× faster than FoundationStereo while closely matching its zero-shot accuracy, thus establishing a new state-of-the-art among real-time methods.
+          </p>
+        </div>
+        <img src="static/media/intro.jpg" width="100%">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 20px;">
+          <video autoplay loop muted playsinline style="height: 340px; width: auto; border: 1px solid #ddd; border-radius: 0px;">
+            <source src="static/media/intro_c.mp4" type="video/mp4">
+          </video>
+          <img src="static/media/bp2_vs_runtime.jpg" style="height: 340px; width: auto; border: 1px solid #ddd; border-radius: 0px;">
+        </div>
+      </div>
+      </div>
+
+
+
+    <br>
+    <br>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths content-block-outline">
+        <h2 class="title is-3">Overview</h2>
+        <div class="content has-text-justified">
+          <p><b>Top:</b> Foundational stereo matching networks (e.g., FoundationStereo) consist of three key steps: feature extraction, cost filtering, and disparity refinement. Each step is accelerated by a divide-and-conquer strategy. <b>Middle-Left:</b> Hybrid monocular and stereo priors from the teacher foundation model are distilled into a single backbone student model. <b>Middle-right:</b> Refinement network is pruned by first constructing a dependency graph that models the recurrent nature of the GRU module, followed by structured pruning and retraining to recover the accuracy. <b>Bottom:</b> Cost filtering network is divided into separate local blocks; block candidates are trained to match the teacher block's output, taking as input the local feature from the previous block; and combinatorial search finds the best performing block combination for a given runtime constraint.
+          </p>
+          <div style="display: flex; justify-content: center;">
+            <img src="static/media/pipeline.jpg" width="90%">
+          </div>
+
+          <!-- <br>
+          <p><b>Top:</b> Distilling the hybrid monocular and stereo priors from FoundationStereo into a unified single backbone captures similar high-frequency edges and relative depth---while significantly reducing computational cost. <b>Bottom:</b> Distillation enhances robustness to translucency, which is challenging to traditional stereo matching.
+          </p>
+          <div style="display: flex; justify-content: center;">
+            <img src="static/media/backbone_distill.jpg" width="50%">
+          </div>
+
+          <br>
+          <p>
+            Below is the recurrent dependency graph of the refinement module.
+            <img src="static/media/scissors.png" style="height:1em;vertical-align:middle;"> denotes where pruning is performed.
+            <img src="static/media/lock.png" style="height:1em;vertical-align:middle;"> denotes where channel dimension remains fixed during the pruning process.
+          </p>
+          </p>
+          <div style="display: flex; justify-content: center;">
+            <img src="static/media/gru_prune.jpg" width="50%">
+          </div> -->
+
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths content-block-outline">
+        <h2 class="title is-3">Internet-Scale Stereo Data Pseudo-Labeling</h2>
+        <div class="content has-text-justified">
+          <p>Real-world data offers greater diversity and realism than synthetic data. However, obtaining real stereo images with ground-truth metric depth annotation is notoriously difficult. To address this challenge, we propose an automatic data curation pipeline to generate pseudo-labels on internet-scale stereo images from Stereo4D dataset.  <b>Top:</b> Pseudo-labeling pipeline on in-the-wild internet stereo data. <b>Bottom:</b> Visualization of our generated pseudo-labels.
+          </p>
+          <div style="display: flex; justify-content: center;">
+            <img src="static/media/stereo4d.jpg" width="50%">
+          </div>
+
+          <br>
+          <p>Below are visualizations of the intermediate results in our pseudo-labeling process. In the rightmost column, green checkmark or red cross denotes whether samples are kept for training or not, based on the percentage of positive pixels in the consistency mask. Our data curation process can automatically discover failures on noisy internet data such as images containing subtitle (bottom), mosaic (2nd last row) and overly challenging samples that are unsuitable for training (top). The final pseudo-labels can also correct erroneous predictions from FoundationStereo on sky regions (5th row).
+          </p>
+          <div style="display: flex; justify-content: center;">
+            <img src="static/media/stereo4d_labeling.jpg" width="100%">
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="columns is-centered has-text-centered" style="margin-top: 100px;">
+      <div class="column is-four-fifths content-block-outline">
+        <h2 class="title is-3">Zero-Shot Comparison</h2>
+        <div style="display: flex; flex: none; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
+          <span id="btn_garage" class="button video-btn is-info is-rounded" onclick="change_zero_shot_video('garage')">Garage</span>
+          <span id="btn_fire" class="button video-btn is-black is-rounded" onclick="change_zero_shot_video('fire')">Fire Hydrant</span>
+          <span id="btn_gripper" class="button video-btn is-black is-rounded" onclick="change_zero_shot_video('gripper')">Robotic Gripper</span>
+        </div>
+        <div style="display: flex; justify-content: center; margin-bottom: 2em; flex-direction: column; align-items: center;">
+          <div id="content_garage" style="text-align: center; width: 100%;">
+            <video id="video_garage" width="80%" controls autoplay loop muted style="border: 1px solid #ddd;">
+              <source src="static/media/garage_pcl_compare_c.mp4" type="video/mp4">
+            </video>
+            <br>
+            <img src="static/media/garage_compare.jpg" width="80%" style="margin-top: 10px">
+          </div>
+
+          <div id="content_fire" style="display: none; text-align: center; width: 100%;">
+            <video id="video_fire" width="80%" controls autoplay loop muted style="border: 1px solid #ddd;">
+              <source src="static/media/fire_pcl_compare_c.mp4" type="video/mp4">
+            </video>
+            <br>
+            <img src="static/media/fire_compare.jpg" width="80%" style="margin-top: 10px">
+          </div>
+
+          <div id="content_gripper" style="display: none; text-align: center; width: 100%;">
+            <video id="video_gripper" width="80%" controls autoplay loop muted style="border: 1px solid #ddd;">
+              <source src="static/media/gripper_pcl_compare_c.mp4" type="video/mp4">
+            </video>
+            <br>
+            <img src="static/media/gripper_compare.jpg" width="80%" style="margin-top: 10px">
+          </div>
+        </div>
+        <script>
+          function change_zero_shot_video(scene) {
+            // Update buttons
+            document.querySelectorAll('.video-btn').forEach(btn => {
+              btn.classList.remove('is-info');
+              btn.classList.add('is-black');
+            });
+            document.getElementById('btn_' + scene).classList.remove('is-black');
+            document.getElementById('btn_' + scene).classList.add('is-info');
+
+            // Update content visibility
+            ['garage', 'fire', 'gripper'].forEach(v => {
+              const content = document.getElementById('content_' + v);
+              const video = document.getElementById('video_' + v);
+
+              if (v === scene) {
+                content.style.display = 'block';
+                video.currentTime = 0;
+                video.play();
+              } else {
+                content.style.display = 'none';
+                video.pause();
+              }
+            });
+          }
+        </script>
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered" style="margin-top: 100px;">
+      <div class="column is-four-fifths content-block-outline">
+        <h2 class="title is-3">Real-Time Demo</h2>
+        <div style="display: flex; flex: none; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
+          <span id="btn_hammer" class="button demo-btn is-info is-rounded" onclick="seek_video(0, 'hammer')">Hammer</span>
+          <span id="btn_bottle" class="button demo-btn is-black is-rounded" onclick="seek_video(33, 'bottle')">Tranlucent Bottle</span>
+          <span id="btn_phone" class="button demo-btn is-black is-rounded" onclick="seek_video(57.5, 'phone')">Phone</span>
+          <span id="btn_hand" class="button demo-btn is-black is-rounded" onclick="seek_video(84, 'hand')">Hand</span>
+          <span id="btn_doll" class="button demo-btn is-black is-rounded" onclick="seek_video(112, 'doll')">Doll</span>
+        </div>
+        <video id="live_demos" width="80%" controls autoplay loop muted style="border: 1px solid #ddd;">
+          <source src="static/media/live_demos_c.mp4" type="video/mp4">
+        </video>
+        <script>
+          function seek_video(seconds, id) {
+            const video = document.getElementById('live_demos');
+            video.currentTime = seconds;
+            video.play();
+
+            // Update buttons
+            document.querySelectorAll('.demo-btn').forEach(btn => {
+              btn.classList.remove('is-info');
+              btn.classList.add('is-black');
+            });
+            document.getElementById('btn_' + id).classList.remove('is-black');
+            document.getElementById('btn_' + id).classList.add('is-info');
+          }
+        </script>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths content-block-outline">
+        <h2 class="title is-3">Full Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/R7RgHxEXB3o?si=NBHsVaZSOjGOLN03" style="border: 5px solid black" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{wen2026fastfoundationstereo,
+  title={Fast-FoundationStereo: Real-Time Zero-Shot Stereo Matching},
+  author={Bowen Wen and Shaurya Dewan and Stan Birchfield},
+  journal={arXiv},
+  year={2026}
+}</code></pre>
+  </div>
+</section>
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Contact</h2>
+    For questions, please reach out to <a href="https://wenbowen123.github.io/">Bowen Wen</a> (bowenw@nvidia.com).
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Acknowledgement</h2>
+    We would like to thank Xutong Ren, Yonggan Fu, Saurav Muralidharan, Han Cai, Pavlo Molchanov, Yu Wang, Varun Praveen, Joseph Aribido and Jun Gao for their insightful early discussions for this project. We would also like to thank NVIDIA Isaac and TAO teams for their tremendous engineering support and valuable discussions.
+  </div>
+</section>
+
+
+  </div>
+</section>
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website taken from
+              <a href="https://github.com/nerfies/nerfies.github.io">here</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
