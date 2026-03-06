@@ -145,14 +145,23 @@ if __name__=="__main__":
         raise RuntimeError("open3d is required for point cloud visualization")
       logging.info("Visualizing point cloud. Press ESC to exit.")
       vis = o3d.visualization.Visualizer()
-      vis.create_window()
-      vis.add_geometry(pcd)
-      vis.get_render_option().point_size = 1.0
-      vis.get_render_option().background_color = np.array([0.5, 0.5, 0.5])
-      ctr = vis.get_view_control()
-      ctr.set_front([0, 0, -1])
-      id = np.asarray(pcd.points)[:,2].argmin()
-      ctr.set_lookat(np.asarray(pcd.points)[id])
-      ctr.set_up([0, -1, 0])
-      vis.run()
-      vis.destroy_window()
+      try:
+        created = vis.create_window()
+        render_option = vis.get_render_option()
+        view_control = vis.get_view_control()
+        if not created or render_option is None or view_control is None:
+          logging.warning(
+            "Open3D viewer could not initialize a rendering context on this desktop session. "
+            "Point cloud files were still saved under %s", args.out_dir
+          )
+        else:
+          vis.add_geometry(pcd)
+          render_option.point_size = 1.0
+          render_option.background_color = np.array([0.5, 0.5, 0.5])
+          view_control.set_front([0, 0, -1])
+          id = np.asarray(pcd.points)[:,2].argmin()
+          view_control.set_lookat(np.asarray(pcd.points)[id])
+          view_control.set_up([0, -1, 0])
+          vis.run()
+      finally:
+        vis.destroy_window()
