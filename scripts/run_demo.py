@@ -6,7 +6,7 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 
-import os,sys, shutil
+import os,sys, shutil, time
 code_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(f'{code_dir}/../')
 from omegaconf import OmegaConf
@@ -39,6 +39,7 @@ if __name__=="__main__":
   parser.add_argument('--max_disp', type=int, default=192, help='maximum disparity')
   parser.add_argument('--zfar', type=float, default=100, help="max depth to include in point cloud")
   parser.add_argument('--show_disp', type=int, default=0, help='show disparity window with OpenCV (0: no, 1: yes)')
+  parser.add_argument('--disp_timeout_ms', type=int, default=0, help='auto-close disparity window after N ms; 0 waits until keypress or window close')
   parser.add_argument('--show_pcl', type=int, default=0, help='visualize point cloud with Open3D (0: no, 1: yes)')
   args = parser.parse_args()
 
@@ -107,8 +108,21 @@ if __name__=="__main__":
   s = 1280/vis.shape[1]
   resized_vis = cv2.resize(vis, (int(vis.shape[1]*s), int(vis.shape[0]*s)))
   if args.show_disp:
-    cv2.imshow('disp', resized_vis[:,:,::-1])
-    cv2.waitKey(0)
+    window_name = 'disp'
+    cv2.imshow(window_name, resized_vis[:,:,::-1])
+    start_time = time.monotonic()
+    while True:
+      key = cv2.waitKey(50)
+      if key != -1:
+        logging.info(f"Closed disparity window on keycode {key}")
+        break
+      if cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) < 1:
+        logging.info("Closed disparity window after window close event")
+        break
+      if args.disp_timeout_ms > 0 and (time.monotonic() - start_time) * 1000 >= args.disp_timeout_ms:
+        logging.info(f"Closed disparity window after {args.disp_timeout_ms} ms timeout")
+        break
+    cv2.destroyWindow(window_name)
 
   if args.remove_invisible:
     yy,xx = np.meshgrid(np.arange(disp.shape[0]), np.arange(disp.shape[1]), indexing='ij')
