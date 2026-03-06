@@ -4,6 +4,12 @@ set -euo pipefail
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_dir"
 
+# OpenCV's bundled Qt plugin set in this venv only includes xcb.
+# Forcing xcb avoids Wayland plugin lookup failures inherited from the desktop session.
+export QT_QPA_PLATFORM="xcb"
+unset QT_STYLE_OVERRIDE
+unset QT_QPA_PLATFORMTHEME
+
 exec "$repo_dir/.venv/bin/python" "$repo_dir/scripts/run_demo.py" \
   --model_dir "$repo_dir/weights/23-36-37/model_best_bp2_serialize.pth" \
   --left_file "$repo_dir/demo_data/left.png" \
