@@ -6,12 +6,12 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 
-import os,sys
+import os,sys, shutil
 code_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(f'{code_dir}/../')
 from omegaconf import OmegaConf
 from core.utils.utils import InputPadder
-import argparse, torch, imageio, logging, yaml
+import argparse, torch, imageio.v2 as imageio, logging, yaml
 import numpy as np
 from Utils import (
     AMP_DTYPE, set_logging_format, set_seed, vis_disparity,
@@ -27,7 +27,7 @@ if __name__=="__main__":
   parser.add_argument('--left_file', default=f'{code_dir}/../demo_data/left.png', type=str)
   parser.add_argument('--right_file', default=f'{code_dir}/../demo_data/right.png', type=str)
   parser.add_argument('--intrinsic_file', default=f'{code_dir}/../demo_data/K.txt', type=str, help='camera intrinsic matrix and baseline file')
-  parser.add_argument('--out_dir', default='/home/bowen/debug/stereo_output', type=str)
+  parser.add_argument('--out_dir', default=f'{code_dir}/../output/demo', type=str)
   parser.add_argument('--remove_invisible', default=1, type=int)
   parser.add_argument('--denoise_cloud', default=0, type=int)
   parser.add_argument('--denoise_nb_points', type=int, default=30, help='number of points to consider for radius outlier removal')
@@ -38,13 +38,17 @@ if __name__=="__main__":
   parser.add_argument('--valid_iters', type=int, default=8, help='number of flow-field updates during forward pass')
   parser.add_argument('--max_disp', type=int, default=192, help='maximum disparity')
   parser.add_argument('--zfar', type=float, default=100, help="max depth to include in point cloud")
+  parser.add_argument('--show_disp', type=int, default=0, help='show disparity window with OpenCV (0: no, 1: yes)')
+  parser.add_argument('--show_pcl', type=int, default=0, help='visualize point cloud with Open3D (0: no, 1: yes)')
   args = parser.parse_args()
 
   set_logging_format()
   set_seed(0)
   torch.autograd.set_grad_enabled(False)
 
-  os.system(f'rm -rf {args.out_dir} && mkdir -p {args.out_dir}')
+  if os.path.isdir(args.out_dir):
+    shutil.rmtree(args.out_dir)
+  os.makedirs(args.out_dir, exist_ok=True)
 
   with open(f'{os.path.dirname(args.model_dir)}/cfg.yaml', 'r') as ff:
     cfg:dict = yaml.safe_load(ff)
@@ -102,8 +106,9 @@ if __name__=="__main__":
   imageio.imwrite(f'{args.out_dir}/disp_vis.png', vis)
   s = 1280/vis.shape[1]
   resized_vis = cv2.resize(vis, (int(vis.shape[1]*s), int(vis.shape[0]*s)))
-  cv2.imshow('disp', resized_vis[:,:,::-1])
-  cv2.waitKey(0)
+  if args.show_disp:
+    cv2.imshow('disp', resized_vis[:,:,::-1])
+    cv2.waitKey(0)
 
   if args.remove_invisible:
     yy,xx = np.meshgrid(np.arange(disp.shape[0]), np.arange(disp.shape[1]), indexing='ij')
@@ -135,16 +140,19 @@ if __name__=="__main__":
       o3d.io.write_point_cloud(f'{args.out_dir}/cloud_denoise.ply', inlier_cloud)
       pcd = inlier_cloud
 
-    logging.info("Visualizing point cloud. Press ESC to exit.")
-    vis = o3d.visualization.Visualizer()
-    vis.create_window()
-    vis.add_geometry(pcd)
-    vis.get_render_option().point_size = 1.0
-    vis.get_render_option().background_color = np.array([0.5, 0.5, 0.5])
-    ctr = vis.get_view_control()
-    ctr.set_front([0, 0, -1])
-    id = np.asarray(pcd.points)[:,2].argmin()
-    ctr.set_lookat(np.asarray(pcd.points)[id])
-    ctr.set_up([0, -1, 0])
-    vis.run()
-    vis.destroy_window()
+    if args.show_pcl:
+      if o3d is None:
+        raise RuntimeError("open3d is required for point cloud visualization")
+      logging.info("Visualizing point cloud. Press ESC to exit.")
+      vis = o3d.visualization.Visualizer()
+      vis.create_window()
+      vis.add_geometry(pcd)
+      vis.get_render_option().point_size = 1.0
+      vis.get_render_option().background_color = np.array([0.5, 0.5, 0.5])
+      ctr = vis.get_view_control()
+      ctr.set_front([0, 0, -1])
+      id = np.asarray(pcd.points)[:,2].argmin()
+      ctr.set_lookat(np.asarray(pcd.points)[id])
+      ctr.set_up([0, -1, 0])
+      vis.run()
+      vis.destroy_window()
